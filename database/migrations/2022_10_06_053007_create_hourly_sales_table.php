@@ -17,9 +17,15 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->unsignedInteger('hour');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('store_id')->references('id')->on('stores');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+            $table->foreignId('store_id')
+                ->constrained('stores')
+                ->onDelete('cascade');
+            $table->foreignId('product_id')
+                ->constrained('products')
+                ->onDelete('cascade');
             $table->unsignedInteger('price');
             $table->unsignedInteger('quantity');
             $table->timestamps();

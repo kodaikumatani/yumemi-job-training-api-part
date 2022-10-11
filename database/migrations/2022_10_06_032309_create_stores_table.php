@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
             $table->unique(['name', 'user_id']);
             $table->timestamps();
         });
