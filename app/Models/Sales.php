@@ -22,4 +22,12 @@ class Sales extends Model
         'price',
         'quantity',
     ];
+
+    public function fetchDailyAccounts()
+    {
+        return $this
+            ->selectRaw('sum(price * quantity) as amount')
+            ->where('date', 'like', date('Y-m').'%')
+            ->value('amount');
+    }
 }
