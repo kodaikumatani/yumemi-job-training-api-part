@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class SalesController extends Controller
+class GetSalesDailyController extends Controller
 {
     /**
      * 直近１ヶ月の売上データを取得する
      *
-     * @return
+     * @param Sales $sales
+     * @return JsonResponse
      */
-    public function getMonthSales(Sales $sales)
+    public function __invoke(Sales $sales)
     {
         return response()->json([
             'summary' => $sales->fetchDailyAccounts(),
