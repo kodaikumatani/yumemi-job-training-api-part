@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,7 +21,7 @@ class ProductSeeder extends Seeder
         foreach ($products as $product) {
             Product::create([
                 'name' => $product,
-                'user_id' => 1,
+                'user_id' => User::orderBy('id', 'asc')->first()->id,
             ]);
         }
     }

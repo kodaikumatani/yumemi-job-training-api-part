@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Store;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +20,7 @@ class StoreSeeder extends Seeder
         foreach ($stores as $store) {
             Store::create([
                 'name' => $store,
-                'user_id' => 1,
+                'user_id' => User::orderBy('id', 'asc')->first()->id,
             ]);
         }
     }

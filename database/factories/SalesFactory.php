@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class SalesFactory extends Factory
     {
         return [
             'date' => fake()->dateTimeBetween($startDate = '-30 days', $endDate = 'now')->format("Y-m-d"),
-            'user_id' => 1,
+            'user_id' => User::orderBy('id', 'asc')->first()->id,
             'store_id' => fake()->numberBetween(1,4),
             'product_id' => fake()->numberBetween(1,4),
             'price' => fake()->randomElement(['250','300','500']),
