@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class GetSalesDailyController extends Controller
 {
     /**
-     * 直近１ヶ月の売上データを取得する
+     * Obtain sales data for the most recent month
      *
      * @param Sales $sales
      * @return JsonResponse
