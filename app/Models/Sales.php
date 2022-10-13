@@ -26,8 +26,10 @@ class Sales extends Model
     public function fetchDailyAccounts()
     {
         return $this
+            ->select('date')
             ->selectRaw('sum(price * quantity) as amount')
-            ->where('date', 'like', date('Y-m').'%')
-            ->value('amount');
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
     }
 }
