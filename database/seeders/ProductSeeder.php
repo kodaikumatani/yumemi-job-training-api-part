@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
         foreach ($products as $product) {
             Product::create([
                 'name' => $product,
-                'user_id' => User::orderBy('id', 'asc')->first()->id,
+                'user_id' => User::orderBy('id', 'asc')->first()->value('id'),
             ]);
         }
     }

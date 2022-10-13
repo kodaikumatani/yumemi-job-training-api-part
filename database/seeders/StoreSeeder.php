@@ -20,7 +20,7 @@ class StoreSeeder extends Seeder
         foreach ($stores as $store) {
             Store::create([
                 'name' => $store,
-                'user_id' => User::orderBy('id', 'asc')->first()->id,
+                'user_id' => User::orderBy('id', 'asc')->first()->value('id'),
             ]);
         }
     }
