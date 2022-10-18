@@ -23,6 +23,15 @@ class Sales extends Model
         'quantity',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'amount' => 'integer',
+    ];
+
     public function fetchDailyAccounts()
     {
         return $this
