@@ -17,7 +17,7 @@ class HourlySalesFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
         return [
@@ -26,7 +26,6 @@ class HourlySalesFactory extends Factory
             'user_id' => $user_id,
             'store_id' => Store::where('user_id', $user_id)->inRandomOrder()->value("id"),
             'product_id' => Product::where('user_id', $user_id)->inRandomOrder()->value("id"),
-            'price' => fake()->randomElement(['250','300','500']),
             'quantity' => fake()->numberBetween(0,10),
         ];
     }

@@ -15,6 +15,6 @@ class HourlySalesSeeder extends Seeder
      */
     public function run()
     {
-        HourlySales::factory()->count(5000)->create();
+        HourlySales::factory()->count(5000)->save();
     }
 }
