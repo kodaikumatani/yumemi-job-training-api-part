@@ -30,6 +30,8 @@ class Sales extends Model
             ->selectRaw('sum(price * quantity) as amount')
             ->groupBy('date')
             ->orderBy('date', 'asc')
-            ->get();
+            ->withCasts([
+                'amount' => 'integer',
+            ])->get();
     }
 }
