@@ -23,15 +23,6 @@ class Sales extends Model
         'quantity',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'amount' => 'integer',
-    ];
-
     public function fetchDailyAccounts()
     {
         return $this
@@ -39,6 +30,8 @@ class Sales extends Model
             ->selectRaw('sum(price * quantity) as amount')
             ->groupBy('date')
             ->orderBy('date', 'asc')
-            ->get();
+            ->withCasts([
+                'amount' => 'integer',
+            ])->get();
     }
 }

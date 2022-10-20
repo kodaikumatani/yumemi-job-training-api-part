@@ -35,10 +35,9 @@ class GetSalesDailyTest extends TestCase
         $response = $this->getJson('/api/sales/daily');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-            $json->has('summary.0', fn ($json) =>
-                $json->whereAllType([
-                    'date' => 'string',
-                    'amount' => 'integer'
-                ])));
+            $json->whereAllType([
+                'summary.0.date' => 'string',
+                'summary.0.amount' => 'integer'
+                ]));
     }
 }
