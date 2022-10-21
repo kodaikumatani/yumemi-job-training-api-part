@@ -20,6 +20,6 @@ class GetSalesDailyDateController extends Controller
         $hourlySales = new Sales();
         return response()->json([
             'details' => $hourlySales->fetchDailySales($date),
-        ]);
+        ],200,[],JSON_UNESCAPED_UNICODE);
     }
 }
