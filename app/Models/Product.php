@@ -10,6 +10,15 @@ class Product extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'price' => 'integer',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -17,5 +26,6 @@ class Product extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'price',
     ];
 }
