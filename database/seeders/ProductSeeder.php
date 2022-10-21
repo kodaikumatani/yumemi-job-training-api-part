@@ -17,6 +17,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+        $user_id = User::orderBy('id', 'asc')->first()->value('id');
         $products[] = array('name'=>'もち', 'price'=>array(250, 500));
         $products[] = array('name'=>'おはぎ', 'price'=>array(250));
         $products[] = array('name'=>'おこわ', 'price'=>array(300));
@@ -24,7 +25,7 @@ class ProductSeeder extends Seeder
         foreach ($products as $product) {
             foreach ($product['price'] as $price) {
                 Product::create([
-                    'user_id' => User::orderBy('id', 'asc')->first()->value('id'),
+                    'user_id' => $user_id,
                     'name' => $product['name'],
                     'price' => $price,
                 ]);

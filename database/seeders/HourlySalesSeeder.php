@@ -20,8 +20,7 @@ class HourlySalesSeeder extends Seeder
     public function run(): void
     {
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
-        $period = CarbonPeriod::start(date('Y-m-d', strtotime('-30 day')))
-            ->untilNow()->toArray();
+        $period = CarbonPeriod::start(date('Y-m-d', strtotime('-30 day')))->untilNow()->toArray();
         foreach ($period as $date) {
             foreach (Store::pluck('id') as $store_id) {
                 foreach (Product::pluck('id') as $product_id) {

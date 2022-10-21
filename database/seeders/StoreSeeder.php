@@ -16,11 +16,12 @@ class StoreSeeder extends Seeder
      */
     public function run()
     {
+        $user_id = User::orderBy('id', 'asc')->first()->value('id');
         $stores = array('愛菜館', 'さんフレッシュ', 'かわはら夢菜館', 'わったいな');
         foreach ($stores as $store) {
             Store::create([
                 'name' => $store,
-                'user_id' => User::orderBy('id', 'asc')->first()->value('id'),
+                'user_id' => $user_id,
             ]);
         }
     }
