@@ -23,36 +23,22 @@ class HourlySalesSeeder extends Seeder
         $period = CarbonPeriod::start(date('Y-m-d', strtotime('-30 day')))
             ->untilNow()->toArray();
         foreach ($period as $date) {
-            $qtyInfo = $this->initializeArray();
-            foreach (range(9, 20) as $hour) {
-                foreach (Store::pluck('id') as $store_id) {
-                    foreach (Product::pluck('id') as $product_id) {
-                        $qtyInfo[$store_id-1][$product_id-1] += rand(0,5);
+            foreach (Store::pluck('id') as $store_id) {
+                foreach (Product::pluck('id') as $product_id) {
+                    $qty = 0;
+                    foreach (range(9, 20) as $hour) {
+                        $qty += rand(0,5);
                         HourlySales::create([
                             'date' => $date->format('Y-m-d'),
                             'hour' => $hour,
                             'user_id' => $user_id,
                             'store_id' => $store_id,
                             'product_id' => $product_id,
-                            'quantity' => $qtyInfo[$store_id-1][$product_id-1],
+                            'quantity' => $qty,
                         ]);
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Store Quantity info.
-     *
-     * @return array
-     */
-    protected function initializeArray(): array
-    {
-        $data = array();
-        foreach (Store::pluck('id') as $store_id) {
-            $data[] = array_fill(0, Product::count(), 0);
-        }
-        return $data;
     }
 }
