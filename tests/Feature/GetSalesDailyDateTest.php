@@ -25,15 +25,14 @@ class GetSalesDailyDateTest extends TestCase
     }
 
     /**
-     * Test if GET method is successful
+     * Return 404 if an invalid value is entered.
      *
      * @return void
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_the_application_returns_404_if_input_an_invalid_value(): void
     {
-        $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d'));
-        $response->assertStatus(200);
+        $response = $this->get('/api/sales/daily/abc');
+        $response->assertStatus(404);
     }
 
     /**
@@ -45,6 +44,7 @@ class GetSalesDailyDateTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/daily/'.date('Y-m-d'));
+        $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
             'details.0.store' => 'string',
