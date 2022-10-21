@@ -43,7 +43,7 @@ class GetSalesDailyDateTest extends TestCase
     public function test_the_application_returns_a_certain_type(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/'.date('Y-m-d'));
+        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d'));
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([

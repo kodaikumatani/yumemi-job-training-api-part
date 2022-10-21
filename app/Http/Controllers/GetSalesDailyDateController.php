@@ -15,11 +15,11 @@ class GetSalesDailyDateController extends Controller
      * @param String $date
      * @return JsonResponse
      */
-    public function __invoke(Request $request, String $date): JsonResponse
+    public function __invoke(Request $request, string $date): JsonResponse
     {
         $hourlySales = new Sales();
         return response()->json([
             'details' => $hourlySales->fetchDailySales($date),
-        ],200,[],JSON_UNESCAPED_UNICODE);
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }
