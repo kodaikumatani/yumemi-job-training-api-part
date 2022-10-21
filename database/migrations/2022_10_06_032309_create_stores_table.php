@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->onDelete('cascade');
-            $table->unique(['name', 'user_id']);
+            $table->string('name', 100);
+            $table->unique(['user_id', 'name']);
             $table->timestamps();
         });
     }

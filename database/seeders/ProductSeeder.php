@@ -17,12 +17,19 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        $products = array('おはぎ','もち','おこわ','みそ');
+        $user_id = User::orderBy('id', 'asc')->first()->value('id');
+        $products[] = array('name'=>'もち', 'price'=>array(250, 500));
+        $products[] = array('name'=>'おはぎ', 'price'=>array(250));
+        $products[] = array('name'=>'おこわ', 'price'=>array(300));
+        $products[] = array('name'=>'みそ', 'price'=>array(500));
         foreach ($products as $product) {
-            Product::create([
-                'name' => $product,
-                'user_id' => User::orderBy('id', 'asc')->first()->value('id'),
-            ]);
+            foreach ($product['price'] as $price) {
+                Product::create([
+                    'user_id' => $user_id,
+                    'name' => $product['name'],
+                    'price' => $price,
+                ]);
+            }
         }
     }
 }
