@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GetSalesDailyController;
 use App\Http\Controllers\GetSalesDailyDateController;
+use App\Http\Controllers\GetSalesDailyDateStoresController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,4 @@ Route::pattern('date', '^([1-9][0-9]{3})-([1-9]{1}|0[1-9]{1}|1[0-2]{1})-([1-9]{1
 
 Route::get('/sales/daily', GetSalesDailyController::class);
 Route::get('/sales/daily/{date}', GetSalesDailyDateController::class);
+Route::get('/sales/daily/{date}/Stores', GetSalesDailyDateStoresController::class);
