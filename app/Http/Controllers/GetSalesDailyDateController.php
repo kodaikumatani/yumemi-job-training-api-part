@@ -17,9 +17,8 @@ class GetSalesDailyDateController extends Controller
      */
     public function __invoke(Request $request, string $date): JsonResponse
     {
-        $sales = new Sales();
         return response()->json([
-            'details' => $sales->fetchDailySales($date),
+            'details' => Sales::fetchDailySales($date),
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 }

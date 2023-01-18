@@ -49,9 +49,9 @@ class Sales extends Model
      * @param $date
      * @return Collection
      */
-    public function fetchDailySales($date): Collection
+    public static function fetchDailySales($date): Collection
     {
-        return $this
+        return self::query()
             ->select('stores.name as store', 'products.name as product', 'price')
             ->selectRaw('sum(quantity) as quantity')
             ->selectRaw('sum(products.price * quantity) as total')
