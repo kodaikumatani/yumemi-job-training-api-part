@@ -70,7 +70,7 @@ class GetSalesDailyDateStoresTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct store name.
+     * Test if you are returns a correct store total.
      *
      * @return void
      */
