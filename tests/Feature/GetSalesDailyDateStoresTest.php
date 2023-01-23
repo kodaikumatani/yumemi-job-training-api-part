@@ -79,9 +79,10 @@ class GetSalesDailyDateStoresTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/stores');
         $response->assertStatus(200);
-        for ($i = 0; $i < 4; $i++) {
-            $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('details.'.strval($i).'.total', 18000));
-        }
+        $response->assertJson(fn (AssertableJson $json) =>
+            $json->where('details.0.total', 1800)
+                ->where('details.1.total', 3600)
+                ->where('details.2.total', 5400)
+                ->where('details.3.total', 7200));
     }
 }
