@@ -29,6 +29,13 @@ class GetSalesDailyDateStoresTestSeeder extends Seeder
                     'product_id' => $product_id,
                     'quantity' => $idx+1,
                 ]);
+                Sales::create([
+                    'date' => date('Y-m-d', strtotime('-1 day')),
+                    'user_id' => $user_id,
+                    'store_id' => $store_id,
+                    'product_id' => $product_id,
+                    'quantity' => ($idx+1)*2,
+                ]);
             }
         }
     }

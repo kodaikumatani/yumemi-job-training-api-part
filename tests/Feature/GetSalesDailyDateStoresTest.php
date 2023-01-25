@@ -70,11 +70,11 @@ class GetSalesDailyDateStoresTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct store total.
+     * Test if you are returns a correct store sales on the day.
      *
      * @return void
      */
-    public function test_the_application_returns_a_correct_store_total(): void
+    public function test_the_application_returns_a_correct_store_sales_on_the_day(): void
     {
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/stores');
@@ -84,5 +84,22 @@ class GetSalesDailyDateStoresTest extends TestCase
                 ->where('details.1.total', 3600)
                 ->where('details.2.total', 5400)
                 ->where('details.3.total', 7200));
+    }
+
+    /**
+     * Test if you are returns a correct store sales the previous day.
+     *
+     * @return void
+     */
+    public function test_the_application_returns_a_correct_store_sales_the_previous_day(): void
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d', strtotime('-1 day')) . '/stores');
+        $response->assertStatus(200);
+        $response->assertJson(fn (AssertableJson $json) =>
+        $json->where('details.0.total', 1800*2)
+            ->where('details.1.total', 3600*2)
+            ->where('details.2.total', 5400*2)
+            ->where('details.3.total', 7200*2));
     }
 }
