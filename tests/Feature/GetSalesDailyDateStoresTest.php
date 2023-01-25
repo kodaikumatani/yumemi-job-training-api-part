@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\GetSalesDailyDateStoresTestSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\StoreSeeder;
-use Database\Seeders\TestingSalesSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,7 +21,7 @@ class GetSalesDailyDateStoresTest extends TestCase
         $this->seed(UserSeeder::class);
         $this->seed(StoreSeeder::class);
         $this->seed(ProductSeeder::class);
-        $this->seed(TestingSalesSeeder::class);
+        $this->seed(GetSalesDailyDateStoresTestSeeder::class);
     }
 
     /**

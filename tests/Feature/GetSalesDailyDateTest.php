@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\GetSalesDailyDateTestSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\StoreSeeder;
-use Database\Seeders\TestingSalesSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,7 +21,7 @@ class GetSalesDailyDateTest extends TestCase
         $this->seed(UserSeeder::class);
         $this->seed(StoreSeeder::class);
         $this->seed(ProductSeeder::class);
-        $this->seed(TestingSalesSeeder::class);
+        $this->seed(GetSalesDailyDateTestSeeder::class);
     }
 
     /**
@@ -56,7 +56,7 @@ class GetSalesDailyDateTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct store name.
+     * Test if you are returns a correct value.
      *
      * @return void
      */
@@ -65,24 +65,30 @@ class GetSalesDailyDateTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/daily/' . date('Y-m-d'));
         $response->assertStatus(200);
-
-        $stores = ['愛菜館','さんフレッシュ','かわはら夢菜館','わったいな'];
-        $products[] = array('name'=>'もち', 'price'=>array(250, 500));
-        $products[] = array('name'=>'おはぎ', 'price'=>array(250));
-        $products[] = array('name'=>'おこわ', 'price'=>array(300));
-        $products[] = array('name'=>'みそ', 'price'=>array(500));
-        $i = 0;
-        foreach ($stores as $idx => $store) {
-            foreach ($products as $product) {
-                foreach ($product['price'] as $price) {
-                    $response->assertJson(fn(AssertableJson $json) => $json->where('details.' . strval($i) . '.store', $store)
-                        ->where('details.' . strval($i) . '.product', $product['name'])
-                        ->where('details.' . strval($i) . '.price', $price)
-                        ->where('details.' . strval($i) . '.quantity', $idx+1)
-                        ->where('details.' . strval($i) . '.total', $price * ($idx+1)));
-                    $i++;
-                }
-            }
-        }
+        $response->assertJson(fn (AssertableJson $json) => $json
+            # 1st record
+            ->where('details.0.store','愛菜館')
+            ->where('details.0.product', 'おこわ')
+            ->where('details.0.price', 300)
+            ->where('details.0.quantity', 1)
+            ->where('details.0.total', 300)
+            # 2nd record
+            ->where('details.1.store','愛菜館')
+            ->where('details.1.product', 'みそ')
+            ->where('details.1.price', 500)
+            ->where('details.1.quantity', 1)
+            ->where('details.1.total', 500)
+            # 3rd record
+            ->where('details.2.store','さんフレッシュ')
+            ->where('details.2.product', 'おこわ')
+            ->where('details.2.price', 300)
+            ->where('details.2.quantity', 2)
+            ->where('details.2.total', 600)
+            # 4th record
+            ->where('details.3.store','さんフレッシュ')
+            ->where('details.3.product', 'みそ')
+            ->where('details.3.price', 500)
+            ->where('details.3.quantity', 2)
+            ->where('details.3.total', 1000));
     }
 }
