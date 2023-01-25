@@ -20,8 +20,8 @@ class GetSalesDailyDateTestSeeder extends Seeder
     public function run()
     {
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
-        foreach (Store::limit(2)->orderBy('id', 'asc')->pluck('id') as $idx => $store_id ) {
-            foreach (Product::limit(2)->orderBy('id', 'desc')->pluck('id') as $product_id) {
+        foreach (Store::orderBy('id', 'asc')->pluck('id') as $idx => $store_id ) {
+            foreach (Product::orderBy('id', 'desc')->pluck('id') as $product_id) {
                 Sales::create([
                     'date' => date('Y-m-d'),
                     'user_id' => $user_id,

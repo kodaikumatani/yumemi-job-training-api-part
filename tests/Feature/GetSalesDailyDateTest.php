@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Database\Seeders\GetSalesDailyDateTestSeeder;
-use Database\Seeders\ProductSeeder;
-use Database\Seeders\StoreSeeder;
+use Database\Seeders\ProductTestSeeder;
+use Database\Seeders\StoreTestSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,8 +19,8 @@ class GetSalesDailyDateTest extends TestCase
     {
         parent::setUp();
         $this->seed(UserSeeder::class);
-        $this->seed(StoreSeeder::class);
-        $this->seed(ProductSeeder::class);
+        $this->seed(StoreTestSeeder::class);
+        $this->seed(ProductTestSeeder::class);
         $this->seed(GetSalesDailyDateTestSeeder::class);
     }
 
