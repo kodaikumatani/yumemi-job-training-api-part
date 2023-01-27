@@ -10,28 +10,28 @@ use Carbon\CarbonPeriod;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TestingSalesSeeder extends Seeder
+class GetSalesDailyTestSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run(): void
+    public function run()
     {
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
+        $store_id = Store::orderBy('id', 'asc')->first()->value('id');
         $period = CarbonPeriod::start(date('Y-m-d', strtotime('-30 day')))->untilNow()->toArray();
         foreach ($period as $date) {
-            foreach (Store::pluck('id') as $store_id) {
-                foreach (Product::pluck('id') as $product_id) {
-                    Sales::create([
-                        'date' => $date->format('Y-m-d'),
-                        'user_id' => $user_id,
-                        'store_id' => $store_id,
-                        'product_id' => $product_id,
-                        'quantity' => 10,
-                    ]);
-                }
+            $diff_day = $date->diff(date('Y-m-d'))->days;
+            foreach (Product::pluck('id') as $product_id) {
+                Sales::create([
+                    'date' => $date->format('Y-m-d'),
+                    'user_id' => $user_id,
+                    'store_id' => $store_id,
+                    'product_id' => $product_id,
+                    'quantity' => $diff_day + 1,
+                ]);
             }
         }
     }
