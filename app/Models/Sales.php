@@ -75,13 +75,13 @@ class Sales extends Model
     {
         return self::query()
             ->select('stores.name as store')
-            ->selectRaw('sum(products.price * quantity) as total')
+            ->selectRaw('sum(products.price * quantity) as amount')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('store')
             ->withCasts([
-                'total' => 'integer',
+                'amount' => 'integer',
             ])->get();
     }
 
@@ -95,13 +95,13 @@ class Sales extends Model
     {
         return self::query()
             ->select('products.name as product')
-            ->selectRaw('sum(products.price * quantity) as total')
+            ->selectRaw('sum(products.price * quantity) as amount')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('product')
             ->withCasts([
-                'total' => 'integer',
+                'amount' => 'integer',
             ])->get();
     }
 }

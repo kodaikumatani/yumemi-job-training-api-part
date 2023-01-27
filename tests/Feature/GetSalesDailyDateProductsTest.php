@@ -48,7 +48,7 @@ class GetSalesDailyDateProductsTest extends TestCase
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
             'details.0.product' => 'string',
-            'details.0.total' => 'integer',
+            'details.0.amount' => 'integer',
         ]));
     }
 
@@ -79,10 +79,10 @@ class GetSalesDailyDateProductsTest extends TestCase
         $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-        $json->where('details.0.total', 7500)
-            ->where('details.1.total', 2500)
-            ->where('details.2.total', 3000)
-            ->where('details.3.total', 5000));
+        $json->where('details.0.amount', 7500)
+            ->where('details.1.amount', 2500)
+            ->where('details.2.amount', 3000)
+            ->where('details.3.amount', 5000));
     }
 
     /**
@@ -96,9 +96,9 @@ class GetSalesDailyDateProductsTest extends TestCase
         $response = $this->getJson('/api/sales/daily/' . date('Y-m-d', strtotime('-2 day')) . '/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-        $json->where('details.0.total', 7500*3)
-            ->where('details.1.total', 2500*3)
-            ->where('details.2.total', 3000*3)
-            ->where('details.3.total', 5000*3));
+        $json->where('details.0.amount', 7500*3)
+            ->where('details.1.amount', 2500*3)
+            ->where('details.2.amount', 3000*3)
+            ->where('details.3.amount', 5000*3));
     }
 }
