@@ -35,14 +35,14 @@ class HourlySales extends Model
     {
         return self::query()
             ->select('hour')
-            ->selectRaw('sum(products.price * quantity) as total')
+            ->selectRaw('sum(products.price * quantity) as amount')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'hourly_sales.store_id')
             ->join('products', 'products.id', '=', 'hourly_sales.product_id')
             ->groupBy('hour')
             ->withCasts([
                 'hour' => 'integer',
-                'total' => 'integer',
+                'amount' => 'integer',
             ])->get();
     }
 }

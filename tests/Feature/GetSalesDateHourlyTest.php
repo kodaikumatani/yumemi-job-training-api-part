@@ -48,7 +48,7 @@ class GetSalesDateHourlyTest extends TestCase
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
             'details.0.hour' => 'integer',
-            'details.0.total' => 'integer'
+            'details.0.amount' => 'integer'
         ]));
     }
 
@@ -64,7 +64,7 @@ class GetSalesDateHourlyTest extends TestCase
         $response->assertStatus(200);
         foreach (range(9, 20) as $i => $hour ) {
             $response->assertJson(fn(AssertableJson $json) =>
-            $json->where('details.' . $i . '.total', 7200*$i));
+            $json->where('details.' . $i . '.amount', 7200*$i));
         }
     }
 }
