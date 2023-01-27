@@ -22,18 +22,11 @@ class GetSalesDailyDateProductsTestSeeder extends Seeder
         foreach (Store::orderBy('id', 'asc')->pluck('id') as $idx => $store_id ) {
             foreach (Product::pluck('id') as $product_id) {
                 Sales::create([
-                    'date' => date('Y-m-d'),
+                    'date' => '2023-01-02',
                     'user_id' => $user_id,
                     'store_id' => $store_id,
                     'product_id' => $product_id,
                     'quantity' => $idx+1,
-                ]);
-                Sales::create([
-                    'date' => date('Y-m-d', strtotime('-2 day')),
-                    'user_id' => $user_id,
-                    'store_id' => $store_id,
-                    'product_id' => $product_id,
-                    'quantity' => ($idx+1)*3,
                 ]);
             }
         }

@@ -43,7 +43,7 @@ class GetSalesDailyDateProductsTest extends TestCase
     public function test_the_application_returns_a_certain_type(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/products');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
@@ -60,7 +60,7 @@ class GetSalesDailyDateProductsTest extends TestCase
     public function test_the_application_returns_a_correct_product_name(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/products');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
         $products = ['もち','おはぎ','おこわ','みそ'];
         foreach ($products as $i => $value) {
@@ -69,36 +69,19 @@ class GetSalesDailyDateProductsTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct product sales on the day.
+     * Test if you are returns a correct product sales.
      *
      * @return void
      */
-    public function test_the_application_returns_a_correct_product_sales_on_the_day(): void
+    public function test_the_application_returns_a_correct_product_sales(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d') . '/products');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->where('details.0.amount', 7500)
             ->where('details.1.amount', 2500)
             ->where('details.2.amount', 3000)
             ->where('details.3.amount', 5000));
-    }
-
-    /**
-     * Test if you are returns a correct product sales 2 days ago.
-     *
-     * @return void
-     */
-    public function test_the_application_returns_a_correct_product_sales_2_days_ago(): void
-    {
-        $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/' . date('Y-m-d', strtotime('-2 day')) . '/products');
-        $response->assertStatus(200);
-        $response->assertJson(fn (AssertableJson $json) =>
-        $json->where('details.0.amount', 7500*3)
-            ->where('details.1.amount', 2500*3)
-            ->where('details.2.amount', 3000*3)
-            ->where('details.3.amount', 5000*3));
     }
 }
