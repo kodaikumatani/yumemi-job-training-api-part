@@ -41,6 +41,7 @@ class HourlySales extends Model
             ->join('products', 'products.id', '=', 'hourly_sales.product_id')
             ->groupBy('hour')
             ->withCasts([
+                'hour' => 'integer',
                 'total' => 'integer',
             ])->get();
     }
