@@ -84,4 +84,24 @@ class Sales extends Model
                 'total' => 'integer',
             ])->get();
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @param $date
+     * @return Collection
+     */
+    public static function fetchDailySalesProducts($date): Collection
+    {
+        return self::query()
+            ->select('products.name as product')
+            ->selectRaw('sum(products.price * quantity) as total')
+            ->where('date', $date)
+            ->join('stores', 'stores.id', '=', 'sales.store_id')
+            ->join('products', 'products.id', '=', 'sales.product_id')
+            ->groupBy('product')
+            ->withCasts([
+                'total' => 'integer',
+            ])->get();
+    }
 }
