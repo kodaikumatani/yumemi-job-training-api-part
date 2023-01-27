@@ -97,7 +97,6 @@ class Sales extends Model
             ->select('products.name as product')
             ->selectRaw('sum(products.price * quantity) as amount')
             ->where('date', $date)
-            ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('product')
             ->withCasts([
