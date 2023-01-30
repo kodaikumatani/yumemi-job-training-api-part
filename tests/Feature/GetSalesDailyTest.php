@@ -49,13 +49,13 @@ class GetSalesDailyTest extends TestCase
      */
     public function test_the_application_returns_a_correct_value(): void
     {
-        $amount_all_items_sold_on = 1800;
+        $amount_all_items_sold_one = 1800;
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/daily/');
         $response->assertStatus(200);
         foreach (range(31, 1) as $i => $days_ago ) {
             $response->assertJson(fn(AssertableJson $json) =>
-            $json->where('summary.' . $i . '.amount', $amount_all_items_sold_on*$days_ago));
+            $json->where('summary.' . $i . '.amount', $amount_all_items_sold_one*$days_ago));
         }
     }
 }
