@@ -25,7 +25,7 @@ class GetSalesDailyTest extends TestCase
     }
 
     /**
-     * A basic feature test example.
+     * Test if you are returns a certain type.
      *
      * @return void
      */
