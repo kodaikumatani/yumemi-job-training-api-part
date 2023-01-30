@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\GetSalesDailyDateStoresTestSeeder;
+use Database\Seeders\GetSalesDailyDateProductsTestSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\StoreSeeder;
 use Database\Seeders\UserSeeder;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class GetSalesDailyDateStoresTest extends TestCase
+class GetSalesDailyDateProductsTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +21,7 @@ class GetSalesDailyDateStoresTest extends TestCase
         $this->seed(UserSeeder::class);
         $this->seed(StoreSeeder::class);
         $this->seed(ProductSeeder::class);
-        $this->seed(GetSalesDailyDateStoresTestSeeder::class);
+        $this->seed(GetSalesDailyDateProductsTestSeeder::class);
     }
 
     /**
@@ -31,7 +31,7 @@ class GetSalesDailyDateStoresTest extends TestCase
      */
     public function test_the_application_returns_404_if_input_an_invalid_value(): void
     {
-        $response = $this->get('/api/sales/daily/abc/stores');
+        $response = $this->get('/api/sales/daily/abc/products');
         $response->assertStatus(404);
     }
 
@@ -43,46 +43,45 @@ class GetSalesDailyDateStoresTest extends TestCase
     public function test_the_application_returns_a_certain_type(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/2023-01-01/stores');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
-            'details.0.store' => 'string',
+            'details.0.product' => 'string',
             'details.0.amount' => 'integer',
         ]));
     }
 
     /**
-     * Test if you are returns a correct store name.
+     * Test if you are returns a correct product name.
      *
      * @return void
      */
-    public function test_the_application_returns_a_correct_store_name(): void
+    public function test_the_application_returns_a_correct_product_name(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/2023-01-01/stores');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
-        $stores = ['愛菜館','さんフレッシュ','かわはら夢菜館','わったいな'];
-        foreach ($stores as $i => $value) {
-            $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('details.'.strval($i).'.store', $value));
+        $products = ['もち','おはぎ','おこわ','みそ'];
+        foreach ($products as $i => $value) {
+            $response->assertJson(fn(AssertableJson $json) => $json->where('details.' . strval($i) . '.product', $value));
         }
     }
 
     /**
-     * Test if you are returns a correct store sales.
+     * Test if you are returns a correct product sales.
      *
      * @return void
      */
-    public function test_the_application_returns_a_correct_store_sales(): void
+    public function test_the_application_returns_a_correct_product_sales(): void
     {
         $this->withoutExceptionHandling();
-        $response = $this->getJson('/api/sales/daily/2023-01-01/stores');
+        $response = $this->getJson('/api/sales/daily/2023-01-02/products');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('details.0.amount', 1800)
-                ->where('details.1.amount', 3600)
-                ->where('details.2.amount', 5400)
-                ->where('details.3.amount', 7200));
+        $json->where('details.0.amount', 7500)
+            ->where('details.1.amount', 2500)
+            ->where('details.2.amount', 3000)
+            ->where('details.3.amount', 5000));
     }
 }
