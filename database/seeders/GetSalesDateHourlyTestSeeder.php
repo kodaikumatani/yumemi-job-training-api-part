@@ -23,7 +23,7 @@ class GetSalesDateHourlyTestSeeder extends Seeder
         foreach (Product::pluck('id') as $product_id) {
             foreach (range(9, 20) as $idx => $hour) {
                 HourlySales::create([
-                    'date' => '2023-01-03',
+                    'dateTime' => '2023-01-03 '. $hour. ':00:00',
                     'hour' => $hour,
                     'user_id' => $user_id,
                     'store_id' => $store_id,

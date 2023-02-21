@@ -28,7 +28,7 @@ class HourlySalesSeeder extends Seeder
                     foreach (range(9, 20) as $hour) {
                         $qty += rand(0,5);
                         HourlySales::create([
-                            'date' => $date->format('Y-m-d'),
+                            'dateTime' => $date->format('Y-m-d ') . $hour . ':00:00',
                             'hour' => $hour,
                             'user_id' => $user_id,
                             'store_id' => $store_id,

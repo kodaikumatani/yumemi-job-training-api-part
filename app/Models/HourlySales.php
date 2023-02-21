@@ -16,7 +16,7 @@ class HourlySales extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'date',
+        'dateTime',
         'hour',
         'user_id',
         'store_id',
@@ -36,7 +36,7 @@ class HourlySales extends Model
         return self::query()
             ->select('hour')
             ->selectRaw('sum(products.price * quantity) as amount')
-            ->where('date', $date)
+            ->where('dateTime', 'like',  $date . '%')
             ->join('stores', 'stores.id', '=', 'hourly_sales.store_id')
             ->join('products', 'products.id', '=', 'hourly_sales.product_id')
             ->groupBy('hour')
