@@ -47,7 +47,7 @@ class GetSalesDailyDateTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
-            'details.0.store' => 'string',
+            'details.0.date' => 'string',
             'details.0.product' => 'string',
             'details.0.price' => 'integer',
             'details.0.quantity' => 'integer',
@@ -67,28 +67,16 @@ class GetSalesDailyDateTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             # 1st record
-            ->where('details.0.store','愛菜館')
+            ->where('details.0.date',date('Y-m-d'))
             ->where('details.0.product', 'おこわ')
             ->where('details.0.price', 300)
-            ->where('details.0.quantity', 1)
-            ->where('details.0.total', 300)
+            ->where('details.0.quantity', 3)
+            ->where('details.0.total', 900)
             # 2nd record
-            ->where('details.1.store','愛菜館')
+            ->where('details.1.date',date('Y-m-d'))
             ->where('details.1.product', 'みそ')
             ->where('details.1.price', 500)
-            ->where('details.1.quantity', 1)
-            ->where('details.1.total', 500)
-            # 3rd record
-            ->where('details.2.store','さんフレッシュ')
-            ->where('details.2.product', 'おこわ')
-            ->where('details.2.price', 300)
-            ->where('details.2.quantity', 2)
-            ->where('details.2.total', 600)
-            # 4th record
-            ->where('details.3.store','さんフレッシュ')
-            ->where('details.3.product', 'みそ')
-            ->where('details.3.price', 500)
-            ->where('details.3.quantity', 2)
-            ->where('details.3.total', 1000));
+            ->where('details.1.quantity', 3)
+            ->where('details.1.total', 1500));
     }
 }

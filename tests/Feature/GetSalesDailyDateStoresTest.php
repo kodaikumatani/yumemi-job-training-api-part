@@ -47,8 +47,8 @@ class GetSalesDailyDateStoresTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
-            'details.0.store' => 'string',
-            'details.0.amount' => 'integer',
+            'details.0.name' => 'string',
+            'details.0.value' => 'integer',
         ]));
     }
 
@@ -65,7 +65,7 @@ class GetSalesDailyDateStoresTest extends TestCase
         $stores = ['愛菜館','さんフレッシュ','かわはら夢菜館','わったいな'];
         foreach ($stores as $i => $value) {
             $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('details.'.strval($i).'.store', $value));
+            $json->where('details.'.strval($i).'.name', $value));
         }
     }
 
@@ -80,9 +80,9 @@ class GetSalesDailyDateStoresTest extends TestCase
         $response = $this->getJson('/api/sales/daily/2023-01-01/stores');
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('details.0.amount', 1800)
-                ->where('details.1.amount', 3600)
-                ->where('details.2.amount', 5400)
-                ->where('details.3.amount', 7200));
+            $json->where('details.0.value', 1800)
+                ->where('details.1.value', 3600)
+                ->where('details.2.value', 5400)
+                ->where('details.3.value', 7200));
     }
 }

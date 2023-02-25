@@ -37,7 +37,7 @@ class GetSalesDailyTest extends TestCase
         $response->assertJson(fn (AssertableJson $json) =>
             $json->whereAllType([
                 'summary.0.date' => 'string',
-                'summary.0.amount' => 'integer'
+                'summary.0.value' => 'integer'
                 ]));
     }
 
@@ -55,7 +55,7 @@ class GetSalesDailyTest extends TestCase
         $response->assertStatus(200);
         foreach (range(31, 1) as $i => $days_ago ) {
             $response->assertJson(fn(AssertableJson $json) =>
-            $json->where('summary.' . $i . '.amount', $amount_all_items_sold_one*$days_ago));
+            $json->where('summary.' . $i . '.value', $amount_all_items_sold_one*$days_ago));
         }
     }
 }

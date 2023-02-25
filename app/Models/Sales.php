@@ -32,14 +32,14 @@ class Sales extends Model
      */
     public function fetchDailyAccounts(): Collection
     {
-        return $this
+        return self::query()
             ->select('date')
-            ->selectRaw('sum(price * quantity) as amount')
+            ->selectRaw('sum(price * quantity) as value')
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('date')
             ->orderBy('date', 'asc')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 
@@ -52,13 +52,14 @@ class Sales extends Model
     public static function fetchDailySales($date): Collection
     {
         return self::query()
-            ->select('stores.name as store', 'products.name as product', 'price')
+            ->selectRaw('max(date) as date')
+            ->selectRaw('products.name as product, price')
             ->selectRaw('sum(quantity) as quantity')
             ->selectRaw('sum(products.price * quantity) as total')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('store', 'product', 'price')
+            ->groupBy('product', 'price')
             ->withCasts([
                 'quantity' => 'integer',
                 'total' => 'integer',
@@ -74,14 +75,14 @@ class Sales extends Model
     public static function fetchDailySalesStores($date): Collection
     {
         return self::query()
-            ->select('stores.name as store')
-            ->selectRaw('sum(products.price * quantity) as amount')
+            ->select('stores.name as name')
+            ->selectRaw('sum(products.price * quantity) as value')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('store')
+            ->groupBy('name')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 
@@ -94,13 +95,13 @@ class Sales extends Model
     public static function fetchDailySalesProducts($date): Collection
     {
         return self::query()
-            ->select('products.name as product')
-            ->selectRaw('sum(products.price * quantity) as amount')
+            ->select('products.name as name')
+            ->selectRaw('sum(products.price * quantity) as value')
             ->where('date', $date)
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('product')
+            ->groupBy('name')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 }
