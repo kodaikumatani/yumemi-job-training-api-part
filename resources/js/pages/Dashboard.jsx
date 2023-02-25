@@ -11,28 +11,15 @@ import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { AppBar, Drawer } from '../components/Styled';
+import { AppBar, Drawer } from '../components/Styles';
 import { mainListItems, secondaryListItems } from '../components/dashboard/listItems';
-import Chart from '../components/dashboard/Chart';
-import Deposits from '../components/dashboard/Deposits';
-import Orders from '../components/dashboard/Orders';
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Stores from '../components/dashboard/Stores'
+import HourlySales from "../components/dashboard/HourlySales";
+import Products from "../components/dashboard/Products";
+import Orders from "../components/dashboard/SalesTable";
 
 const mdTheme = createTheme();
 
@@ -115,40 +102,54 @@ function DashboardContent() {
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={3}>
-                            {/* Chart */}
-                            <Grid item xs={12} md={8} lg={9}>
+                            {/* Sales */}
+                            <Grid item lg={5} xs={12}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                    <Chart />
+                                    }}>
+                                    <Stores />
                                 </Paper>
                             </Grid>
-                            {/* Recent Deposits */}
-                            <Grid item xs={12} md={4} lg={3}>
+                            {/* HourlySales */}
+                            <Grid item lg={7} xs={12}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                    <Deposits />
+                                        minHeight: '270px',
+                                    }}>
+                                    <HourlySales />
                                 </Paper>
                             </Grid>
-                            {/* Recent Orders */}
-                            <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                            {/* Products */}
+                            <Grid item lg={5} xs={12}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        minHeight: '270px',
+                                    }}>
+                                    <Products />
+                                </Paper>
+                            </Grid>
+                            {/* Tables */}
+                            <Grid item lg={7} xs={12}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        height: '280px',
+                                    }}>
                                     <Orders />
                                 </Paper>
                             </Grid>
                         </Grid>
-                        <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>
             </Box>
