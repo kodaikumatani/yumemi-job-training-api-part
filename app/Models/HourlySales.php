@@ -25,24 +25,31 @@ class HourlySales extends Model
         'quantity',
     ];
 
+    public static function fetchOneHourSales($date, $hour)
+    {
+        return self::query()
+            ->selectRaw('sum(products.price * quantity) as amount')
+            ->where('dateTime', 'like', $date.'%')
+            ->where('hour', $hour)
+            ->join('stores', 'stores.id', '=', 'hourly_sales.store_id')
+            ->join('products', 'products.id', '=', 'hourly_sales.product_id')
+            ->value('amount');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @param $date
-     * @return Collection
+     * @return array
      */
-    public static function fetchHourlySales($date): Collection
+    public static function fetchHourlySales($date): array
     {
-        return self::query()
-            ->select('hour')
-            ->selectRaw('sum(products.price * quantity) as amount')
-            ->where('dateTime', 'like',  $date . '%')
-            ->join('stores', 'stores.id', '=', 'hourly_sales.store_id')
-            ->join('products', 'products.id', '=', 'hourly_sales.product_id')
-            ->groupBy('hour')
-            ->withCasts([
-                'hour' => 'integer',
-                'amount' => 'integer',
-            ])->get();
+        $ary = [];
+        $amount = 0;
+        foreach (range(9, 20) as $hour) {
+            $amount = self::fetchOneHourSales($date, $hour) - $amount;
+            $ary[] = array('hour' => $hour, 'value' => $amount);
+        }
+        return $ary;
     }
 }
