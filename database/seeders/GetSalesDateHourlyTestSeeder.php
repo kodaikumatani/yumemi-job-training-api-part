@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\HourlySales;
+use App\Models\Sales;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\User;
@@ -21,9 +21,9 @@ class GetSalesDateHourlyTestSeeder extends Seeder
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
         $store_id = Store::orderBy('id', 'asc')->first()->value('id');
         foreach (Product::pluck('id') as $product_id) {
-            foreach (range(9, 20) as $idx => $hour) {
-                HourlySales::create([
-                    'dateTime' => '2023-01-03 '. $hour. ':00:00',
+            foreach (range(10, 20) as $idx => $hour) {
+                Sales::create([
+                    'date' => '2023-01-03',
                     'hour' => $hour,
                     'user_id' => $user_id,
                     'store_id' => $store_id,

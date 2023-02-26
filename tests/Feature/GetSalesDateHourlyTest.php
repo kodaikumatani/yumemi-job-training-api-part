@@ -48,7 +48,7 @@ class GetSalesDateHourlyTest extends TestCase
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
             'summary.0.hour' => 'integer',
-            'summary.0.amount' => 'integer'
+            'summary.0.value' => 'integer'
         ]));
     }
 
@@ -64,9 +64,9 @@ class GetSalesDateHourlyTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->getJson('/api/sales/2023-01-03/hourly');
         $response->assertStatus(200);
-        foreach (range(9, 20) as $i => $hour ) {
+        foreach (range(10, 20) as $idx => $hour ) {
             $response->assertJson(fn(AssertableJson $json) =>
-            $json->where('summary.' . $i . '.amount', $amount_all_items_sold_one*$i));
+            $json->where('summary.' . $idx . '.value', $amount_all_items_sold_one*$idx));
         }
     }
 }

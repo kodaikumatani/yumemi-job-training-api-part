@@ -11,13 +11,12 @@ class GetSalesDailyController extends Controller
     /**
      * Obtain sales data for the most recent month
      *
-     * @param Sales $sales
      * @return JsonResponse
      */
-    public function __invoke(Sales $sales)
+    public function __invoke(): JsonResponse
     {
         return response()->json([
-            'summary' => $sales->fetchDailyAccounts(),
+            'summary' => Sales::fetchDailySales(),
         ]);
     }
 }
