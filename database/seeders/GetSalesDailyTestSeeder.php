@@ -27,6 +27,7 @@ class GetSalesDailyTestSeeder extends Seeder
             foreach (Product::pluck('id') as $product_id) {
                 Sales::create([
                     'date' => $date->format('Y-m-d'),
+                    'hour' => 10,
                     'user_id' => $user_id,
                     'store_id' => $store_id,
                     'product_id' => $product_id,

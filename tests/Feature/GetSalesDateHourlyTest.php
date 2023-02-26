@@ -59,15 +59,15 @@ class GetSalesDateHourlyTest extends TestCase
      *
      * @return void
      */
-//    public function test_the_application_returns_a_correct_hourly_sales(): void
-//    {
-//        $amount_all_items_sold_one = 1800;
-//        $this->withoutExceptionHandling();
-//        $response = $this->getJson('/api/sales/2023-01-03/hourly');
-//        $response->assertStatus(200);
-//        foreach (range(9, 20) as $i => $hour ) {
-//            $response->assertJson(fn(AssertableJson $json) =>
-//            $json->where('summary.' . $i . '.value', $amount_all_items_sold_one*$i));
-//        }
-//    }
+    public function test_the_application_returns_a_correct_hourly_sales(): void
+    {
+        $amount_all_items_sold_one = 1800;
+        $this->withoutExceptionHandling();
+        $response = $this->getJson('/api/sales/2023-01-03/hourly');
+        $response->assertStatus(200);
+        foreach (range(10, 20) as $idx => $hour ) {
+            $response->assertJson(fn(AssertableJson $json) =>
+            $json->where('summary.' . $idx . '.value', $amount_all_items_sold_one*$idx));
+        }
+    }
 }
