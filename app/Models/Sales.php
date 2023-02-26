@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class Sales extends Model
 {
@@ -18,10 +17,10 @@ class Sales extends Model
      */
     protected $fillable = [
         'date',
+        'hour',
         'user_id',
         'store_id',
         'product_id',
-        'price',
         'quantity',
     ];
 
@@ -30,16 +29,15 @@ class Sales extends Model
      *
      * @return Collection
      */
-    public function fetchDailyAccounts(): Collection
+    public static function fetchDailySales(): Collection
     {
-        return $this
+        return self::query()
             ->select('date')
-            ->selectRaw('sum(price * quantity) as amount')
+            ->selectRaw('SUM(products.price * quantity) as value')
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('date')
-            ->orderBy('date', 'asc')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 
@@ -49,16 +47,15 @@ class Sales extends Model
      * @param $date
      * @return Collection
      */
-    public static function fetchDailySales($date): Collection
+    public static function fetchDailyDateSales($date): Collection
     {
         return self::query()
-            ->select('stores.name as store', 'products.name as product', 'price')
-            ->selectRaw('sum(quantity) as quantity')
-            ->selectRaw('sum(products.price * quantity) as total')
-            ->where('date', $date)
-            ->join('stores', 'stores.id', '=', 'sales.store_id')
+            ->select('products.name', 'products.price')
+            ->selectRaw('SUM(quantity) as quantity, SUM(products.price * quantity) as total')
+            ->selectRaw('max(date) as date')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('store', 'product', 'price')
+            ->where('sales.date', '=', $date)
+            ->groupBy('product_id')
             ->withCasts([
                 'quantity' => 'integer',
                 'total' => 'integer',
@@ -71,17 +68,17 @@ class Sales extends Model
      * @param $date
      * @return Collection
      */
-    public static function fetchDailySalesStores($date): Collection
+    public static function fetchDailyDateStoresSales($date): Collection
     {
         return self::query()
-            ->select('stores.name as store')
-            ->selectRaw('sum(products.price * quantity) as amount')
-            ->where('date', $date)
+            ->select('stores.name')
+            ->selectRaw('SUM(products.price * quantity) as value')
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('store')
+            ->where('sales.date', '=', $date)
+            ->groupBy('stores.name')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 
@@ -91,16 +88,36 @@ class Sales extends Model
      * @param $date
      * @return Collection
      */
-    public static function fetchDailySalesProducts($date): Collection
+    public static function fetchDailyDateProductsSales($date): Collection
     {
         return self::query()
-            ->select('products.name as product')
-            ->selectRaw('sum(products.price * quantity) as amount')
-            ->where('date', $date)
+            ->select('products.name')
+            ->selectRaw('SUM(products.price * quantity) as value')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('product')
+            ->where('sales.date', '=', $date)
+            ->groupBy('products.name')
             ->withCasts([
-                'amount' => 'integer',
+                'value' => 'integer',
+            ])->get();
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @param $date
+     * @return Collection
+     */
+    public static function fetchDateHourlySales($date): Collection
+    {
+        return self::query()
+            ->select('hour')
+            ->selectRaw('SUM(products.price * quantity) as value')
+            ->join('products', 'products.id', '=', 'sales.product_id')
+            ->where('sales.date', '=', $date)
+            ->groupBy('hour')
+            ->withCasts([
+                'hour' => 'integer',
+                'value' => 'integer',
             ])->get();
     }
 }
