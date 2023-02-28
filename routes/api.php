@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GetDateStoresController;
 use App\Http\Controllers\GetSalesDailyController;
 use App\Http\Controllers\GetSalesDailyDateController;
 use App\Http\Controllers\GetSalesDailyDateProductsController;
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  */
 Route::pattern('date', '^([1-9][0-9]{3})-([1-9]{1}|0[1-9]{1}|1[0-2]{1})-([1-9]{1}|0[1-9]{1}|[1-2]{1}[0-9]{1}|3[0-1]{1})$');
 
+Route::get('/{date}/stores', GetDateStoresController::class);
 Route::get('/sales/daily', GetSalesDailyController::class);
 Route::get('/sales/daily/{date}', GetSalesDailyDateController::class);
 Route::get('/sales/daily/{date}/stores', GetSalesDailyDateStoresController::class);

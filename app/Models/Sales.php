@@ -27,6 +27,24 @@ class Sales extends Model
     /**
      * The attributes that are mass assignable.
      *
+     * @param $date
+     * @return Collection
+     */
+    public static function fetchDateStores($date): Collection
+    {
+        return self::query()
+            ->select('store_id as id', 'stores.name as name')
+            ->where('date', $date)
+            ->join('stores', 'stores.id', '=', 'sales.store_id')
+            ->groupBy('store_id')
+            ->withCasts([
+                'id' => 'integer',
+            ])->get();
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
      * @return Collection
      */
     public static function fetchDailySales(): Collection
