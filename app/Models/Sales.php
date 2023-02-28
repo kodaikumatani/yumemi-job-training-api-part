@@ -63,15 +63,17 @@ class Sales extends Model
      * The attributes that are mass assignable.
      *
      * @param $date
+     * @param $id
      * @return Collection
      */
-    public static function fetchDailyDateSales($date): Collection
+    public static function fetchDailyDateSales($date, $id): Collection
     {
         return self::query()
             ->select('products.name as product', 'products.price')
             ->selectRaw('SUM(quantity) as quantity, SUM(products.price * quantity) as total')
-            ->selectRaw('max(date) as date')
+            ->selectRaw('CONCAT(?, " ", MAX(hour), ":00") as date', [$date])
             ->where('date', $date)
+            ->whereRaw("CASE WHEN ? = '' THEN ? ELSE store_id END = ?", [$id, $id, $id])
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('product_id')
             ->withCasts([
