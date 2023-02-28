@@ -71,8 +71,8 @@ class Sales extends Model
             ->select('products.name as product', 'products.price')
             ->selectRaw('SUM(quantity) as quantity, SUM(products.price * quantity) as total')
             ->selectRaw('max(date) as date')
+            ->where('date', $date)
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->where('sales.date', '=', $date)
             ->groupBy('product_id')
             ->withCasts([
                 'quantity' => 'integer',
@@ -91,9 +91,9 @@ class Sales extends Model
         return self::query()
             ->select('stores.name')
             ->selectRaw('SUM(products.price * quantity) as value')
+            ->where('sales.date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->where('sales.date', '=', $date)
             ->groupBy('stores.name')
             ->withCasts([
                 'value' => 'integer',
@@ -111,8 +111,8 @@ class Sales extends Model
         return self::query()
             ->select('products.name')
             ->selectRaw('SUM(products.price * quantity) as value')
+            ->where('sales.date', $date)
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->where('sales.date', '=', $date)
             ->groupBy('products.name')
             ->withCasts([
                 'value' => 'integer',
@@ -130,8 +130,8 @@ class Sales extends Model
         return self::query()
             ->select('hour')
             ->selectRaw('SUM(products.price * quantity) as value')
+            ->where('sales.date', $date)
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->where('sales.date', '=', $date)
             ->groupBy('hour')
             ->withCasts([
                 'hour' => 'integer',
