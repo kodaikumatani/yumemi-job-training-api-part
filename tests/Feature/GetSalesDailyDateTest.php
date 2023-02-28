@@ -47,7 +47,7 @@ class GetSalesDailyDateTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->whereAllType([
-            'details.0.name' => 'string',
+            'details.0.product' => 'string',
             'details.0.price' => 'integer',
             'details.0.quantity' => 'integer',
             'details.0.total' => 'integer',
@@ -66,13 +66,13 @@ class GetSalesDailyDateTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) => $json
             # 1st record
-            ->where('details.0.name', 'おこわ')
+            ->where('details.0.product', 'おこわ')
             ->where('details.0.price', 300)
             ->where('details.0.quantity', 3)
             ->where('details.0.total', 900)
             ->where('details.0.date', date('Y-m-d'))
             # 2nd record
-            ->where('details.1.name', 'みそ')
+            ->where('details.1.product', 'みそ')
             ->where('details.1.price', 500)
             ->where('details.1.quantity', 3)
             ->where('details.1.total', 1500)

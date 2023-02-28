@@ -50,7 +50,7 @@ class Sales extends Model
     public static function fetchDailyDateSales($date): Collection
     {
         return self::query()
-            ->select('products.name', 'products.price')
+            ->select('products.name as product', 'products.price')
             ->selectRaw('SUM(quantity) as quantity, SUM(products.price * quantity) as total')
             ->selectRaw('max(date) as date')
             ->join('products', 'products.id', '=', 'sales.product_id')
