@@ -54,7 +54,7 @@ class GetSalesDateHourlyTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct hourly sales.
+     * TableMenu if you are returns a correct hourly sales.
      * Sales increase by 1800 per hour.
      *
      * @return void

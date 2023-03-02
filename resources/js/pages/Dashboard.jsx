@@ -19,7 +19,7 @@ import { mainListItems, secondaryListItems } from '../components/dashboard/listI
 import Stores from '../components/dashboard/Stores'
 import HourlySales from "../components/dashboard/HourlySales";
 import Products from "../components/dashboard/Products";
-import Orders from "../components/dashboard/SalesTable";
+import SalesStatus from "../components/dashboard/SalesStatus";
 
 const mdTheme = createTheme();
 
@@ -28,6 +28,7 @@ function DashboardContent() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
+    const date = "2023-02-06";
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -110,7 +111,7 @@ function DashboardContent() {
                                         display: 'flex',
                                         flexDirection: 'column',
                                     }}>
-                                    <Stores />
+                                    <Stores date={date} />
                                 </Paper>
                             </Grid>
                             {/* HourlySales */}
@@ -122,7 +123,7 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                         minHeight: '270px',
                                     }}>
-                                    <HourlySales />
+                                    <HourlySales date={date} />
                                 </Paper>
                             </Grid>
                             {/* Products */}
@@ -134,19 +135,20 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                         minHeight: '270px',
                                     }}>
-                                    <Products />
+                                    <Products date={date} />
                                 </Paper>
                             </Grid>
-                            {/* Tables */}
+                            {/* SaleStatus */}
                             <Grid item lg={7} xs={12}>
                                 <Paper
                                     sx={{
                                         p: 2,
+                                        pt: 1,
                                         display: 'flex',
                                         flexDirection: 'column',
                                         height: '280px',
                                     }}>
-                                    <Orders />
+                                    <SalesStatus date={date} />
                                 </Paper>
                             </Grid>
                         </Grid>

@@ -25,7 +25,7 @@ class GetSalesDailyTest extends TestCase
     }
 
     /**
-     * Test if you are returns a certain type.
+     * TableMenu if you are returns a certain type.
      *
      * @return void
      */
@@ -42,7 +42,7 @@ class GetSalesDailyTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct value.
+     * TableMenu if you are returns a correct value.
      * Sales increase by 1800 per day.
      *
      * @return void

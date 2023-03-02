@@ -14,7 +14,7 @@ export default function CustomLegend(props) {
             <TableBody>
                 {props.items.map((items, index) => (
                     <TableRow key={index} role="checkbox">
-                        <TableCell padding="checkbox">
+                        <TableCell padding="checkbox" style={{paddingLeft: 0, paddingRight: 0}}>
                             <Checkbox
                                 disabled
                                 size="small"

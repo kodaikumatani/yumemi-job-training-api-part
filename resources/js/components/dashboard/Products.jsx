@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import axios from "axios";
 import Grid from '@mui/material/Grid';
 import {
@@ -14,11 +14,12 @@ import { COLORS } from "../Styles";
 import Legend from "./Legend";
 import Title from './Title';
 
-export default function Products() {
-    const [products, setProducts] = useState([]);
+export default function Products(props) {
+    const { date } = props;
+    const [products, setProducts] = React.useState([]);
 
-    useEffect(() => {
-        axios.get('/api/sales/daily/2023-02-06/products')
+    React.useEffect(() => {
+        axios.get(`/api/sales/daily/${date}/products`)
             .then(response => setProducts(response.data.details))
             .catch(error => console.log(error))
     }, []);

@@ -36,7 +36,7 @@ class GetSalesDailyDateStoresTest extends TestCase
     }
 
     /**
-     * Test if you are returns a certain type.
+     * TableMenu if you are returns a certain type.
      *
      * @return void
      */
@@ -53,7 +53,7 @@ class GetSalesDailyDateStoresTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct store name.
+     * TableMenu if you are returns a correct store name.
      *
      * @return void
      */
@@ -70,7 +70,7 @@ class GetSalesDailyDateStoresTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct store sales.
+     * TableMenu if you are returns a correct store sales.
      *
      * @return void
      */
