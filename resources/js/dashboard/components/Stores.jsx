@@ -1,32 +1,32 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Grid from '@mui/material/Grid';
-import {
-    PieChart,
-    Pie,
-    Cell,
-    Label,
-    ResponsiveContainer
-} from "recharts";
-import { COLORS } from "../Styles";
-import Legend from "./Legend";
+import { Grid, Paper } from '@mui/material';
+import { PieChart, Pie, Cell, Label, ResponsiveContainer } from 'recharts';
+import { COLORS } from '../../layouts/Styles';
+import Legend from './Legend';
 import Title from './Title';
 
 export default function Stores(props) {
     const { date } = props;
-    const [stores, setStores] = React.useState([]);
+    const [stores, setStores] = useState([]);
     const total = new Intl.NumberFormat().format(stores.reduce(function (sum, element) {
         return sum + element.value;
     }, 0));
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(`/api/sales/daily/${date}/stores`)
             .then(response => setStores(response.data.details))
             .catch(error => console.log(error))
-    }, [])
+    }, [date])
 
     return (
-        <React.Fragment>
+        <Paper
+            sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             <Title>Sales</Title>
             <Grid container alignItems="center" minHeight="200px">
                 <Grid item xs={5} >
@@ -57,6 +57,6 @@ export default function Stores(props) {
                     <Legend items={stores} />
                 </Grid>
             </Grid>
-        </React.Fragment>
+        </Paper>
     );
 }

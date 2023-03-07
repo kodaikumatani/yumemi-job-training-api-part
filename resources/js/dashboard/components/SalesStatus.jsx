@@ -1,25 +1,31 @@
-import * as React from 'react';
-import axios from "axios";
-import Table from '@mui/material/Table';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Paper, Table, TableCell, TableRow} from '@mui/material';
 import Title from './Title';
-import TableMenu from "./TableMenu";
-import SalesTable from "./SalesTable";
+import TableMenu from './TableMenu';
+import SalesTable from './SalesTable';
 
-export default function SalesStatus(props) {
+const SalesStatus = (props) => {
     const { date } = props;
-    const [store, setStore] = React.useState([])
-    const [select, setSelect] = React.useState(0)
+    const [store, setStore] = useState([])
+    const [select, setSelect] = useState(0)
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(`/api/${date}/stores`)
             .then(response => setStore(response.data.summary))
             .catch(error => console.log(error))
-    }, []);
+    }, [date]);
 
     return (
-        <React.Fragment>
+        <Paper
+            sx={{
+                p: 2,
+                pt: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                height: '280px',
+            }}
+        >
             <Table size="small">
                 <TableRow>
                     <TableCell style={{borderBottom:"none", padding: 0}}>
@@ -31,6 +37,7 @@ export default function SalesStatus(props) {
                 </TableRow>
             </Table>
             <SalesTable date={date} id={select} />
-        </React.Fragment>
+        </Paper>
     );
 }
+export default SalesStatus;

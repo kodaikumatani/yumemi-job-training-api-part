@@ -1,27 +1,28 @@
-import * as React from "react";
-import axios from "axios";
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    ResponsiveContainer
-} from "recharts";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Paper } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
-export default function HourlySales(props) {
+const HourlySales = (props) => {
     const { date } = props;
-    const [hours, setHours] = React.useState([]);
+    const [hours, setHours] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(`/api/sales/${date}/hourly`)
             .then(response => setHours(response.data.summary))
             .catch(error => console.log(error))
-    }, [])
+    }, [date])
 
     return (
-        <React.Fragment>
+        <Paper
+            sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '270px',
+            }}
+        >
             <Title>HourlySales</Title>
             <ResponsiveContainer width="95%" aspect="3">
                 <BarChart
@@ -35,6 +36,7 @@ export default function HourlySales(props) {
                     <YAxis />
                 </BarChart>
             </ResponsiveContainer>
-        </React.Fragment>
+        </Paper>
     );
 }
+export default HourlySales;

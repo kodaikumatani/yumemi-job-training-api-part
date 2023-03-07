@@ -1,6 +1,6 @@
-import * as React from 'react';
-import axios from "axios";
-import Grid from '@mui/material/Grid';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Paper, Grid } from '@mui/material';
 import {
     BarChart,
     Bar,
@@ -9,23 +9,30 @@ import {
     YAxis,
     CartesianGrid,
     ResponsiveContainer
-} from "recharts";
-import { COLORS } from "../Styles";
-import Legend from "./Legend";
+} from 'recharts';
+import { COLORS } from '../../layouts/Styles';
+import Legend from './Legend';
 import Title from './Title';
 
-export default function Products(props) {
+const Products = (props) => {
     const { date } = props;
-    const [products, setProducts] = React.useState([]);
+    const [products, setProducts] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(`/api/sales/daily/${date}/products`)
             .then(response => setProducts(response.data.details))
             .catch(error => console.log(error))
-    }, []);
+    }, [date]);
 
     return (
-        <React.Fragment>
+        <Paper
+            sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '270px',
+            }}
+        >
             <Title>Products</Title>
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item xs={7}>
@@ -54,6 +61,7 @@ export default function Products(props) {
                     <Legend items={products} />
                 </Grid>
             </Grid>
-        </React.Fragment>
+        </Paper>
     );
 }
+export default Products;

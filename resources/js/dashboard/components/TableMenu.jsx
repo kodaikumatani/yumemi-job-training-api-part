@@ -1,14 +1,10 @@
-import * as React from 'react';
-import Box from "@mui/material/Box";
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import React, { useState } from 'react';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Typography from "@mui/material/Typography";
 
-export default function TableMenu(props) {
+const TableMenu = (props) => {
     const { store, select, setSelect } = props;
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -55,3 +51,4 @@ export default function TableMenu(props) {
         </Box>
     );
 }
+export default TableMenu;

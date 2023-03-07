@@ -1,13 +1,15 @@
-import * as React from "react";
-import Checkbox from "@mui/material/Checkbox";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import StopIcon from "@mui/icons-material/Stop";
-import { COLORS } from "../Styles";
+import React from 'react';
+import {
+    Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableRow
+} from '@mui/material';
+import StopIcon from '@mui/icons-material/Stop';
+import { COLORS } from '../../layouts/Styles';
 
-export default function CustomLegend(props) {
+const Legend = (props) => {
     const numberWithComma = new Intl.NumberFormat();
     return (
         <Table size="small">
@@ -35,3 +37,4 @@ export default function CustomLegend(props) {
         </Table>
     );
 }
+export default Legend;

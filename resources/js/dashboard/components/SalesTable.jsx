@@ -1,14 +1,9 @@
-import * as React from 'react';
-import axios from "axios";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { TableContainer } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 
 function buildQueryString(id) {
-    let string = "";
+    let string = '';
     if(id > 0) {
         string += `?store_id=${id}`;
     }
@@ -18,13 +13,13 @@ function buildQueryString(id) {
 export default function SalesTable(props) {
     const { date, id } = props
     const NWC = new Intl.NumberFormat();
-    const [sales, setSales] = React.useState([]);
+    const [sales, setSales] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get(`/api/sales/daily/${date}${buildQueryString(id)}`)
             .then(response => setSales(response.data.details))
             .catch(error => console.log(error))
-    }, [id]);
+    }, [date, id]);
 
     return (
         <TableContainer>
