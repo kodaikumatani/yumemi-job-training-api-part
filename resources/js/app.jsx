@@ -1,9 +1,22 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom/client';
-import Dashboard from './dashboard/pages/Dashboard';
+import './bootstrap';
+import '../css/app.css';
 
-ReactDOM.createRoot(document.querySelector("#app")).render(
-    <React.StrictMode>
-        <Dashboard />
-    </React.StrictMode>
-);
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { createInertiaApp } from '@inertiajs/inertia-react';
+import { InertiaProgress } from '@inertiajs/progress';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
+    setup({ el, App, props }) {
+        const root = createRoot(el);
+
+        root.render(<App {...props} />);
+    },
+});
+
+InertiaProgress.init({ color: '#4B5563' });
