@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import { createTheme, ThemeProvider, CssBaseline, Box, Toolbar, Container, Grid } from '@mui/material';
-import AppBar from "../../layouts/AppBar";
+import {
+    createTheme,
+    ThemeProvider,
+    CssBaseline,
+    Box,
+    Toolbar,
+    Container,
+    Grid,
+    IconButton,
+    Typography,
+    AppBar,
+} from '@mui/material';
 import Stores from '../components/Stores'
 import Products from "../components/Products";
 import SalesStatus from "../components/SalesStatus";
@@ -17,7 +27,17 @@ const Dashboard = () => {
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar/>
+                <AppBar component="nav">
+                    <Toolbar>
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                        >
+                            MUI
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
                 <Box
                     component="main"
                     sx={{
