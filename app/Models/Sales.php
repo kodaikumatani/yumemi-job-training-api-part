@@ -22,6 +22,7 @@ class Sales extends Model
         'store_id',
         'product_id',
         'quantity',
+        'store_total',
     ];
 
     /**
@@ -36,7 +37,7 @@ class Sales extends Model
             ->select('store_id as id', 'stores.name as name')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
-            ->groupBy('store_id')
+            ->groupBy('id', 'name')
             ->withCasts([
                 'id' => 'integer',
             ])->get();
@@ -70,12 +71,13 @@ class Sales extends Model
     {
         return self::query()
             ->select('products.name as product', 'products.price')
-            ->selectRaw('SUM(quantity) as quantity, SUM(products.price * quantity) as total')
-            ->selectRaw('CONCAT(?, " ", MAX(hour), ":00") as date', [$date])
+            ->selectRaw('SUM(quantity) as quantity')
+            ->selectRaw('SUM(store_total) as store_total')
+            ->selectRaw('SUM(products.price * quantity) as total')
             ->where('date', $date)
             ->whereRaw("CASE WHEN ? = '' THEN ? ELSE store_id END = ?", [$id, $id, $id])
             ->join('products', 'products.id', '=', 'sales.product_id')
-            ->groupBy('product_id')
+            ->groupBy('product','price')
             ->withCasts([
                 'quantity' => 'integer',
                 'total' => 'integer',
