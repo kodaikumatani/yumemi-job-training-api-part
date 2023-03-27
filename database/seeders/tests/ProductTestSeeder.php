@@ -1,10 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\tests;
 
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductTestSeeder extends Seeder

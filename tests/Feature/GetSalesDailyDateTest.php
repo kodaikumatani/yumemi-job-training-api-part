@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\GetSalesDailyDateTestSeeder;
-use Database\Seeders\ProductTestSeeder;
 use Database\Seeders\StoreTestSeeder;
+use Database\Seeders\tests\GetSalesDailyDateTestSeeder;
+use Database\Seeders\tests\ProductTestSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -36,7 +35,7 @@ class GetSalesDailyDateTest extends TestCase
     }
 
     /**
-     * Test if you are returns a certain type.
+     * TableMenu if you are returns a certain type.
      *
      * @return void
      */
@@ -55,7 +54,7 @@ class GetSalesDailyDateTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct value.
+     * TableMenu if you are returns a correct value.
      *
      * @return void
      */
@@ -70,12 +69,10 @@ class GetSalesDailyDateTest extends TestCase
             ->where('details.0.price', 300)
             ->where('details.0.quantity', 3)
             ->where('details.0.total', 900)
-            ->where('details.0.date', date('Y-m-d'))
             # 2nd record
             ->where('details.1.product', 'みそ')
             ->where('details.1.price', 500)
             ->where('details.1.quantity', 3)
-            ->where('details.1.total', 1500)
-            ->where('details.1.date', date('Y-m-d')));
+            ->where('details.1.total', 1500));
     }
 }

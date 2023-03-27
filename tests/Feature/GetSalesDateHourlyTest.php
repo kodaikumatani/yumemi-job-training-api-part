@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\HourlySales;
-use Database\Seeders\GetSalesDateHourlyTestSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\StoreSeeder;
+use Database\Seeders\tests\GetSalesDateHourlyTestSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -54,7 +53,7 @@ class GetSalesDateHourlyTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct hourly sales.
+     * TableMenu if you are returns a correct hourly sales.
      * Sales increase by 1800 per hour.
      *
      * @return void

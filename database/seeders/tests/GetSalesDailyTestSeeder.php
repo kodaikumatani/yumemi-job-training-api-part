@@ -1,16 +1,15 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\tests;
 
 use App\Models\Product;
 use App\Models\Sales;
 use App\Models\Store;
 use App\Models\User;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class GetSalesDailyDateStoresTestSeeder extends Seeder
+class GetSalesDailyTestSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,15 +19,19 @@ class GetSalesDailyDateStoresTestSeeder extends Seeder
     public function run()
     {
         $user_id = User::orderBy('id', 'asc')->first()->value('id');
-        foreach (Store::orderBy('id', 'asc')->pluck('id') as $idx => $store_id ) {
+        $store_id = Store::orderBy('id', 'asc')->first()->value('id');
+        $period = CarbonPeriod::start(date('Y-m-d', strtotime('-30 day')))->untilNow()->toArray();
+        foreach ($period as $date) {
+            $diff_day = $date->diff(date('Y-m-d'))->days;
             foreach (Product::pluck('id') as $product_id) {
                 Sales::create([
-                    'date' => '2023-01-01',
-                    'hour' => $idx,
+                    'date' => $date->format('Y-m-d'),
+                    'hour' => 10,
                     'user_id' => $user_id,
                     'store_id' => $store_id,
                     'product_id' => $product_id,
-                    'quantity' => $idx+1,
+                    'quantity' => $diff_day + 1,
+                    'store_total' => $diff_day + 1,
                 ]);
             }
         }

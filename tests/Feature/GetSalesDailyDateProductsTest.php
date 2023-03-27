@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\GetSalesDailyDateProductsTestSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\StoreSeeder;
+use Database\Seeders\tests\GetSalesDailyDateProductsTestSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -36,7 +35,7 @@ class GetSalesDailyDateProductsTest extends TestCase
     }
 
     /**
-     * Test if you are returns a certain type.
+     * TableMenu if you are returns a certain type.
      *
      * @return void
      */
@@ -53,7 +52,7 @@ class GetSalesDailyDateProductsTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct product name.
+     * TableMenu if you are returns a correct product name.
      *
      * @return void
      */
@@ -70,7 +69,7 @@ class GetSalesDailyDateProductsTest extends TestCase
     }
 
     /**
-     * Test if you are returns a correct product sales.
+     * TableMenu if you are returns a correct product sales.
      *
      * @return void
      */

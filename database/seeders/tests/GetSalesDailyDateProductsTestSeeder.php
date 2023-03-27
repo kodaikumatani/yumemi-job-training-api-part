@@ -1,12 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\tests;
 
 use App\Models\Product;
 use App\Models\Sales;
 use App\Models\Store;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GetSalesDailyDateProductsTestSeeder extends Seeder
@@ -27,7 +26,8 @@ class GetSalesDailyDateProductsTestSeeder extends Seeder
                     'user_id' => $user_id,
                     'store_id' => $store_id,
                     'product_id' => $product_id,
-                    'quantity' => $idx+1,
+                    'quantity' => $idx + 1,
+                    'store_total' => $idx + 1,
                 ]);
             }
         }
