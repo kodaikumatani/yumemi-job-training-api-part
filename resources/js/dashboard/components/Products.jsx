@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import Grid from '@mui/material/Grid';
+import axios from 'axios';
+import { Paper, Grid } from '@mui/material';
 import {
     BarChart,
     Bar,
@@ -9,22 +9,29 @@ import {
     YAxis,
     CartesianGrid,
     ResponsiveContainer
-} from "recharts";
-import { COLORS } from "../Styles";
-import Legend from "./Legend";
+} from 'recharts';
+import { COLORS } from '../../layouts/Styles';
+import Legend from './Legend';
 import Title from './Title';
 
-export default function Products() {
+const Products = (props) => {
+    const { date } = props;
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/sales/daily/2023-02-06/products')
+        axios.get(`/api/sales/daily/${date}/products`)
             .then(response => setProducts(response.data.details))
             .catch(error => console.log(error))
-    }, []);
+    }, [date]);
 
     return (
-        <React.Fragment>
+        <Paper
+            sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             <Title>Products</Title>
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item xs={7}>
@@ -43,9 +50,8 @@ export default function Products() {
                                     />
                                 ))}
                             </Bar>
-                            <XAxis dataKey="name" tick={{fontSize:"12px"}}/>
-                            {/*`${12-Math.max(products.length-3,0)*2}px`}}/>*/}
-                            <YAxis tick={{fontSize: "12px"}}/>
+                            <XAxis dataKey="name" interval={0} style={{fontSize: '0.8rem'}}/>
+                            {/*<YAxis />*/}
                         </BarChart>
                     </ResponsiveContainer>
                 </Grid>
@@ -53,6 +59,7 @@ export default function Products() {
                     <Legend items={products} />
                 </Grid>
             </Grid>
-        </React.Fragment>
+        </Paper>
     );
 }
+export default Products;
