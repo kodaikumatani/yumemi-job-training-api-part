@@ -27,7 +27,7 @@ return new class extends Migration
                 ->constrained('products')
                 ->onDelete('cascade');
             $table->integer('quantity');
-            $table->integer('store_total');
+            $table->integer('store_total')->nullable();
             $table->unique(['date', 'hour', 'user_id', 'store_id', 'product_id']);
             $table->timestamps();
         });
