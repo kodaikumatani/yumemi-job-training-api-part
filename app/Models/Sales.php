@@ -75,7 +75,7 @@ class Sales extends Model
             ->selectRaw('SUM(store_total) as store_total')
             ->selectRaw('SUM(products.price * quantity) as total')
             ->where('date', $date)
-            ->whereRaw("CASE WHEN ? = '' THEN ? ELSE store_id END = ?", [$id, $id, $id])
+            ->whereRaw("CASE WHEN ? = 0 THEN TRUE ELSE store_id = ? END", [$id, $id])
             ->join('products', 'products.id', '=', 'sales.product_id')
             ->groupBy('product','price')
             ->withCasts([
