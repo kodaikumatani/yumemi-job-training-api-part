@@ -9,13 +9,9 @@ const SalesTable= (props) => {
 
     useEffect(() => {
         axios.get(`/api/sales/daily/${date}${query}`)
-            .then(response => {
-                setSales(response.data.details)
-                console
-            })
+            .then(response => setSales(response.data.details))
             .catch(error => console.log(error))
     }, [date, query]);
-
     return (
         <TableContainer>
             <Table size="small" sx={{ tableLayout: 'fixed' }}>

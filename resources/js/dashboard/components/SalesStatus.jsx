@@ -81,7 +81,7 @@ const SalesStatus = (props) => {
             </TabPanel>
             {store.map((entry, index) => (
                 <TabPanel value={value} index={index+1}>
-                    <SalesTable date={date} query={`?store_id=${entry.id}`}/>
+                    <SalesTable date={date} query={`?store_id=${entry.store_id}`}/>
                 </TabPanel>
             ))}
         </Paper>

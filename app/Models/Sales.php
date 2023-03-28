@@ -34,12 +34,12 @@ class Sales extends Model
     public static function fetchDateStores($date): Collection
     {
         return self::query()
-            ->select('store_id as id', 'stores.name as name')
+            ->select('store_id', 'stores.name as name')
             ->where('date', $date)
             ->join('stores', 'stores.id', '=', 'sales.store_id')
-            ->groupBy('id', 'name')
+            ->groupBy('store_id', 'name')
             ->withCasts([
-                'id' => 'integer',
+                'store_id' => 'integer',
             ])->get();
     }
 
