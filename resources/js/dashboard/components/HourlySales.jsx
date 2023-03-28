@@ -34,6 +34,7 @@ const HourlySales = (props) => {
                     <XAxis
                         dataKey="hour"
                         type="number"
+                        interval={0}
                         domain={['auto', 'auto']}
                         ticks={[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
                     />
