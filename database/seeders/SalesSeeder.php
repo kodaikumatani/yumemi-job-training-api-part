@@ -25,7 +25,7 @@ class SalesSeeder extends Seeder
         foreach (CarbonPeriod::create($start, $end) as $date) {
             foreach (Store::pluck('id') as $store_id) {
                 foreach (Product::pluck('id') as $product_id) {
-                    foreach (range(10, 20) as $hour) {
+                    foreach (range(10, 19) as $hour) {
                         Sales::create([
                             'date' => $date->format('Y-m-d'),
                             'hour' => $hour,
