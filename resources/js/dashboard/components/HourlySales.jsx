@@ -6,7 +6,7 @@ import Title from './Title';
 
 const HourlySales = (props) => {
     const { date } = props;
-    const [hours, setHours] = useState([]);
+    const [hours, setHours] = useState([{ hour: 19, value: 0}]);
 
     useEffect(() => {
         axios.get(`/api/sales/${date}/hourly`)
