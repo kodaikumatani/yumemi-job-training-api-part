@@ -35,7 +35,7 @@ const HourlySales = (props) => {
                         dataKey="hour"
                         type="number"
                         interval={0}
-                        domain={['auto', 'auto']}
+                        domain={['dataMin - 1', 'dataMax + 1']}
                         ticks={[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
                     />
                     <YAxis />
