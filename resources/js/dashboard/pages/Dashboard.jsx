@@ -7,12 +7,13 @@ import {
     Box,
     Container,
     Grid,
+    Toolbar,
 } from '@mui/material';
 import Stores from '../components/Stores'
 import Products from "../components/Products";
 import SalesStatus from "../components/SalesStatus";
 import HourlySales from "../components/HourlySales";
-import Calendar from "../components/Calendar";
+import CalendarAppBar from "../components/CalendarAppBar";
 
 const mdTheme = createTheme();
 
@@ -23,6 +24,7 @@ const Dashboard = () => {
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
+                <CalendarAppBar selected={date} setSelected={setDate} />
                 <Box
                     component="main"
                     sx={{
@@ -35,12 +37,9 @@ const Dashboard = () => {
                         overflow: 'auto',
                     }}
                 >
+                    <Toolbar/>
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={3}>
-                            {/* Date */}
-                            <Grid xs={12} container justifyContent="flex-end">
-                                <Calendar selected={date} setSelected={setDate}/>
-                            </Grid>
                             {/* Sales */}
                             <Grid item lg={5} xs={12}>
                                 <Stores date={date.format('YYYY-MM-DD')} />
