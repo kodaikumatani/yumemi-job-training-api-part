@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: JAイナバ売上管理サイト
-  version: 0.0.1
+  version: latest
 servers:
   - url: http://jainner.kakinohatei.com/api/
     description: プロダクション API
@@ -9,11 +9,13 @@ servers:
     description: 開発用
 tags:
   - name: sales
-    description: Everything about your Pets
+    description: 売上の管理
   - name: year
   - name: month
   - name: week
   - name: day
+  - name: store
+  - name: product
 
 paths:
   /sales/year/{year}:
@@ -21,9 +23,69 @@ paths:
       tags:
         - sales
         - year
-      summary: 1年間の売上を確認できる
-      description: 選択した年の月毎の売上を集計
+      summary: 1年間の売上を確認する
+      description: 選択した年の売上を月ごとに集計する
       operationId: getYearlySales
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年の形式が正しくありません。
+        '404':
+          description: 指定された年の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/year/{year}/store:
+    get:
+      tags:
+        - sales
+        - year
+        - store
+      summary: 1年間の売上を店舗ごとに確認する
+      operationId: getYearlySalesByStoress
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年の形式が正しくありません。
+        '404':
+          description: 指定された年の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/year/{year}/product:
+    get:
+      tags:
+        - sales
+        - year
+        - product
+      summary: 1年間の売上を商品ごとに確認する
+      operationId: getYearlySalesByProducts
       parameters:
         - name: year
           in: path
@@ -51,9 +113,83 @@ paths:
       tags:
         - sales
         - month
-      summary: １ヶ月分の売上を確認できる
-      description: 指定月の売上を日毎に集計する
+      summary: １ヶ月の売上を確認する
+      description: 選択した月の売上を日ごとに集計する
       operationId: getMonthlySales
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。月の形式が正しくありません。
+        '404':
+          description: 指定された月の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/month/{year}/{month}/store:
+    get:
+      tags:
+        - sales
+        - month
+        - store
+      summary: １ヶ月の売上を店舗ごとに確認する
+      operationId: getMonthlySalesByStoress
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。月の形式が正しくありません。
+        '404':
+          description: 指定された月の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/month/{year}/{month}/product:
+    get:
+      tags:
+        - sales
+        - month
+        - product
+      summary: １ヶ月の売上を商品ごとに確認する
+      operationId: getMonthlySalesByProducts
       parameters:
         - name: year
           in: path
@@ -88,9 +224,97 @@ paths:
       tags:
         - sales
         - week
-      summary: 1週間分の売上を確認できる
-      description: 指定日から７日間の売上を集計する
+      summary: 1週間の売上を確認する
+      description: 選択した日付から７日間の売上を集計する
       operationId: getWeeklySales
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+        - name: day
+          in: path
+          description: 取得する週の始まりの日 (DD 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/week/{year}/{month}/{day}/store:
+    get:
+      tags:
+        - sales
+        - week
+        - store
+      summary: 1週間の売上を店舗ごとに確認する
+      operationId: getWeeklySalesByStores
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+        - name: day
+          in: path
+          description: 取得する週の始まりの日 (DD 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/week/{year}/{month}/{day}/product:
+    get:
+      tags:
+        - sales
+        - week
+        - product
+      summary: 1週間の売上を商品ごとに確認する
+      operationId: getWeeklySalesByProducts
       parameters:
         - name: year
           in: path
@@ -132,9 +356,97 @@ paths:
       tags:
         - sales
         - day
-      summary: 1日の売上を確認できる
-      description: 1日の時間ごとの売上を確認する
+      summary: 1日の売上を確認する
+      description: 1日の売上を時間ごとの確認する
       operationId: getDailySales
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+        - name: day
+          in: path
+          description: 取得する週の始まりの日 (DD 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/day/{year}/{month}/{day}/store:
+    get:
+      tags:
+        - sales
+        - day
+        - store
+      summary: 1日の売上を店舗ごとに確認する
+      operationId: getDailySalesByStores
+      parameters:
+        - name: year
+          in: path
+          description: 取得する年 (YYYY 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9]{4}$"
+        - name: month
+          in: path
+          description: 取得する月 (MM 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|1[0-2])$"
+        - name: day
+          in: path
+          description: 取得する週の始まりの日 (DD 形式)
+          required: true
+          schema:
+            type: string
+            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/day/{year}/{month}/{day}/product:
+    get:
+      tags:
+        - sales
+        - day
+        - product
+      summary: 1日の売上を商品ごとに確認する
+      operationId: getDailySalesByProducts
       parameters:
         - name: year
           in: path
