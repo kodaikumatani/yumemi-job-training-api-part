@@ -6,6 +6,7 @@ use App\Http\Controllers\GetSalesDailyDateController;
 use App\Http\Controllers\GetSalesDailyDateProductsController;
 use App\Http\Controllers\GetSalesDailyDateStoresController;
 use App\Http\Controllers\GetSalesDateHourlyController;
+use App\Http\Controllers\GetSalesYearController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,4 @@ Route::get('/sales/daily/{date}', GetSalesDailyDateController::class);
 Route::get('/sales/daily/{date}/stores', GetSalesDailyDateStoresController::class);
 Route::get('/sales/daily/{date}/products', GetSalesDailyDateProductsController::class);
 Route::get('/sales/{date}/hourly', GetSalesDateHourlyController::class);
+Route::get('/sales/year/{year}', GetSalesYearController::class);
