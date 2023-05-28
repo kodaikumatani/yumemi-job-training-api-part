@@ -19,25 +19,6 @@ class SalesSeeder extends Seeder
      */
     public function run(): void
     {
-        $user_id = User::orderBy('id', 'asc')->first()->value('id');
-        $start = date('Y-m-d', strtotime('-14 day'));
-        $end = date('Y-m-d', strtotime('+14 day'));
-        foreach (CarbonPeriod::create($start, $end) as $date) {
-            foreach (Store::pluck('id') as $store_id) {
-                foreach (Product::pluck('id') as $product_id) {
-                    foreach (range(10, 19) as $hour) {
-                        Sales::create([
-                            'date' => $date->format('Y-m-d'),
-                            'hour' => $hour,
-                            'user_id' => $user_id,
-                            'store_id' => $store_id,
-                            'product_id' => $product_id,
-                            'quantity' => rand(0,3),
-                            'store_total' => rand(0,3),
-                        ]);
-                    }
-                }
-            }
-        }
+        Sales::factory()->count(10000)->create();
     }
 }

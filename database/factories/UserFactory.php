@@ -18,6 +18,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'producer_code' => rand(0,1000),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
