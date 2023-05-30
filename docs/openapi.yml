@@ -25,13 +25,7 @@ paths:
       description: 選択した年の売上を月ごとに集計する
       operationId: getYearlySales
       parameters:
-        - name: year
-          in: path
-          description: 取得する年 (YYYY 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9]{4}$"
+        - $ref: "#/components/parameters/Year"
       responses:
         '200':
           description: Successful operation
@@ -55,20 +49,8 @@ paths:
       description: 選択した月の売上を日ごとに集計する
       operationId: getMonthlySales
       parameters:
-        - name: year
-          in: path
-          description: 取得する年 (YYYY 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9]{4}$"
-        - name: month
-          in: path
-          description: 取得する月 (MM 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^(0[1-9]|1[0-2])$"
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
       responses:
         '200':
           description: Successful operation
@@ -92,27 +74,9 @@ paths:
       description: 選択した日付から７日間の売上を集計する
       operationId: getWeeklySales
       parameters:
-        - name: year
-          in: path
-          description: 取得する年 (YYYY 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9]{4}$"
-        - name: month
-          in: path
-          description: 取得する月 (MM 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^(0[1-9]|1[0-2])$"
-        - name: day
-          in: path
-          description: 取得する週の始まりの日 (DD 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
+        - $ref: "#/components/parameters/Day"
       responses:
         '200':
           description: Successful operation
@@ -136,27 +100,9 @@ paths:
       description: 1日の売上を時間ごとの確認する
       operationId: getDailySales
       parameters:
-        - name: year
-          in: path
-          description: 取得する年 (YYYY 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9]{4}$"
-        - name: month
-          in: path
-          description: 取得する月 (MM 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^(0[1-9]|1[0-2])$"
-        - name: day
-          in: path
-          description: 取得する週の始まりの日 (DD 形式)
-          required: true
-          schema:
-            type: string
-            pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
+        - $ref: "#/components/parameters/Day"
       responses:
         '200':
           description: Successful operation
@@ -181,46 +127,60 @@ components:
           format: int64
           example: 10
         date:
-          type: integer
-          format: int64
-          example: 10
+          type: string
+          enum:
+            - "2023-04"
+            - "2023-04-01"
+            - "10"
         value:
           type: integer
           format: int32
           example: 230000
-        stores:
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/Store'
-        products:
-          type: array
-          items:
-            $ref: "#/components/schemas/Product"
-    Store:
+            $ref: '#/components/schemas/Detail'
+    Detail:
       type: object
       properties:
         id:
           type: integer
           format: int64
           example: 2
-        name:
+        store:
           type: string
           example: 愛菜館
-        value:
-          type: integer
-          format: int32
-          example: 124000
-    Product:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 2
-        name:
+        product:
           type: string
           example: もち
         value:
           type: integer
           format: int32
           example: 83000
+
+  parameters:
+    Year:
+      name: year
+      in: path
+      description: 取得する年 (YYYY 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^[0-9]{4}$"
+        example: "2023"
+    Month:
+      name: month
+      in: path
+      description: 取得する月 (MM 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^(0[1-9]|1[0-2])$"
+    Day:
+      name: day
+      in: path
+      description: 取得する週の始まりの日 (DD 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^(0[1-9]|[12][0-9]|3[01])$"
