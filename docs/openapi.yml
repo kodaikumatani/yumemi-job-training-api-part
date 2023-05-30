@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: JAイナバ売上管理サイト
+  version: latest
+servers:
+  - url: http://jainner.kakinohatei.com/api/
+    description: プロダクション API
+  - url: http://localhost/api/
+    description: 開発用
+tags:
+  - name: sales
+    description: 売上の管理
+  - name: year
+  - name: month
+  - name: week
+  - name: day
+
+paths:
+  /sales/year/{year}:
+    get:
+      tags:
+        - sales
+        - year
+      summary: 1年間の売上を確認する
+      description: 選択した年の売上を月ごとに集計する
+      operationId: getYearlySales
+      parameters:
+        - $ref: "#/components/parameters/Year"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sales'
+        '400':
+          description: リクエストが無効です。年の形式が正しくありません。
+        '404':
+          description: 指定された年の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/month/{year}/{month}:
+    get:
+      tags:
+        - sales
+        - month
+      summary: １ヶ月の売上を確認する
+      description: 選択した月の売上を日ごとに集計する
+      operationId: getMonthlySales
+      parameters:
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sales'
+        '400':
+          description: リクエストが無効です。月の形式が正しくありません。
+        '404':
+          description: 指定された月の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/week/{year}/{month}/{day}:
+    get:
+      tags:
+        - sales
+        - week
+      summary: 1週間の売上を確認する
+      description: 選択した日付から７日間の売上を集計する
+      operationId: getWeeklySales
+      parameters:
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
+        - $ref: "#/components/parameters/Day"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sales'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+  /sales/day/{year}/{month}/{day}:
+    get:
+      tags:
+        - sales
+        - day
+      summary: 1日の売上を確認する
+      description: 1日の売上を時間ごとの確認する
+      operationId: getDailySales
+      parameters:
+        - $ref: "#/components/parameters/Year"
+        - $ref: "#/components/parameters/Month"
+        - $ref: "#/components/parameters/Day"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sales'
+        '400':
+          description: リクエストが無効です。年、月、または日の形式が正しくありません。
+        '404':
+          description: 指定された週の売上データが見つかりません。
+        '500':
+          description: サーバーエラー。売上データの取得に失敗しました。
+
+components:
+  schemas:
+    Sales:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        date:
+          type: string
+          enum:
+            - "2023-04"
+            - "2023-04-01"
+            - "10"
+        value:
+          type: integer
+          format: int32
+          example: 230000
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail'
+    Detail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 2
+        store:
+          type: string
+          example: 愛菜館
+        product:
+          type: string
+          example: もち
+        value:
+          type: integer
+          format: int32
+          example: 83000
+
+  parameters:
+    Year:
+      name: year
+      in: path
+      description: 取得する年 (YYYY 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^[0-9]{4}$"
+        example: "2023"
+    Month:
+      name: month
+      in: path
+      description: 取得する月 (MM 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^(0[1-9]|1[0-2])$"
+    Day:
+      name: day
+      in: path
+      description: 取得する週の始まりの日 (DD 形式)
+      required: true
+      schema:
+        type: string
+        pattern: "^(0[1-9]|[12][0-9]|3[01])$"
