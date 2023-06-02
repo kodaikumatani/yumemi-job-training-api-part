@@ -12,7 +12,6 @@ tags:
     description: 売上の管理
   - name: year
   - name: month
-  - name: week
   - name: day
 
 paths:
@@ -32,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sales'
+                $ref: '#/components/schemas/MonthlySales'
         '400':
           description: リクエストが無効です。年の形式が正しくありません。
         '404':
@@ -57,37 +56,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sales'
+                $ref: '#/components/schemas/DailySales'
         '400':
           description: リクエストが無効です。月の形式が正しくありません。
         '404':
           description: 指定された月の売上データが見つかりません。
-        '500':
-          description: サーバーエラー。売上データの取得に失敗しました。
-
-  /sales/week/{year}/{month}/{day}:
-    get:
-      tags:
-        - sales
-        - week
-      summary: 1週間の売上を確認する
-      description: 選択した日付から７日間の売上を集計する
-      operationId: getWeeklySales
-      parameters:
-        - $ref: "#/components/parameters/Year"
-        - $ref: "#/components/parameters/Month"
-        - $ref: "#/components/parameters/Day"
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sales'
-        '400':
-          description: リクエストが無効です。年、月、または日の形式が正しくありません。
-        '404':
-          description: 指定された週の売上データが見つかりません。
         '500':
           description: サーバーエラー。売上データの取得に失敗しました。
 
@@ -109,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Sales'
+                $ref: '#/components/schemas/HourlySales'
         '400':
           description: リクエストが無効です。年、月、または日の形式が正しくありません。
         '404':
@@ -119,19 +92,56 @@ paths:
 
 components:
   schemas:
-    Sales:
+    MonthlySales:
       type: object
       properties:
         id:
           type: integer
           format: int64
-          example: 10
+          example: 1
+        month:
+          type: string
+          example: "2023-02"
+        value:
+          type: integer
+          format: int32
+          example: 230000
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail'
+    DailySales:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        day:
+          type: string
+          example: "2023-02-23"
+        value:
+          type: integer
+          format: int32
+          example: 230000
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Detail'
+    HourlySales:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
         date:
           type: string
-          enum:
-            - "2023-04"
-            - "2023-04-01"
-            - "10"
+          example: "2023-02-23"
+        hour:
+          type: integer
+          format: int32
+          example: 6
         value:
           type: integer
           format: int32
@@ -153,10 +163,18 @@ components:
         product:
           type: string
           example: もち
-        value:
+        price:
           type: integer
           format: int32
-          example: 83000
+          example: 300
+        quantity:
+          type: integer
+          format: int32
+          example: 5
+        amount:
+          type: integer
+          format: int32
+          example: 1500
 
   parameters:
     Year:
@@ -176,6 +194,7 @@ components:
       schema:
         type: string
         pattern: "^(0[1-9]|1[0-2])$"
+        example: "02"
     Day:
       name: day
       in: path
@@ -184,3 +203,4 @@ components:
       schema:
         type: string
         pattern: "^(0[1-9]|[12][0-9]|3[01])$"
+        example: "23"
